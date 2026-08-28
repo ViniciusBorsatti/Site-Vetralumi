@@ -18,7 +18,7 @@ const produto = empresa.produtos[0]!;
           <article class="peca rev" style={`--atraso:${(i * 0.09).toFixed(2)}s`}>
             {a.novidade && <span class="selo">Novidade</span>}
             <div class="peca-foto">
-              <img src={a.imagem} alt={`Dobradiça Vetralumi ${a.nome}`} width="100" height="100" loading="lazy" />
+              <img src={a.imagem} alt={`Dobradiça Vetralumi ${a.nome}`} width="274" height="310" loading="lazy" />
             </div>
             <div class="peca-pe">
               <span class="chip" style={`background:${a.chip}`} aria-hidden="true" />
@@ -49,7 +49,7 @@ const produto = empresa.produtos[0]!;
     background: var(--branco);
     border: 1px solid var(--linha);
     border-radius: 3px;
-    padding: 34px 26px 22px;
+    padding: 22px 22px 20px;
     transition:
       opacity 0.8s var(--saida),
       transform 0.8s var(--saida),
@@ -63,17 +63,20 @@ const produto = empresa.produtos[0]!;
     transform: translateY(-5px);
   }
 
+  /* Palco levemente tingido: sem ele a dobradica branca some no cartao. */
   .peca-foto {
     display: grid;
     place-items: center;
-    height: 150px;
+    height: 178px;
+    background: #eff2f7;
+    border-radius: 2px;
+    overflow: hidden;
   }
 
   .peca-foto img {
     width: auto;
-    height: 100%;
+    height: 122px;
     object-fit: contain;
-    mix-blend-mode: multiply;
     transition: transform 0.55s var(--saida);
   }
 
