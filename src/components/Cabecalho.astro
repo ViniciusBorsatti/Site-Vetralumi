@@ -1,0 +1,178 @@
+---
+import { empresa, linkWhatsapp } from '../data/empresa';
+
+const secoes = [
+  { href: '#produtos', rotulo: 'Produtos' },
+  { href: '#para-quem', rotulo: 'Para quem' },
+  { href: '#contato', rotulo: 'Contato' },
+];
+
+const acao = empresa.whatsapp
+  ? linkWhatsapp(empresa.whatsapp)
+  : `tel:${empresa.telefone.e164}`;
+---
+
+<header class="topo" id="topo">
+  <div class="env topo-int">
+    <a class="marca" href="#" aria-label={`${empresa.nome}, início`}>
+      <svg class="marca-v" viewBox="0 0 161 146" aria-hidden="true">
+        <use href="#marca-v"></use>
+      </svg>
+      <span class="marca-texto">
+        <strong>Vetralumi</strong>
+        <em>componentes</em>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Seções do site">
+      {secoes.map((s) => <a href={s.href}>{s.rotulo}</a>)}
+    </nav>
+
+    <a class="btn btn--cheio topo-acao" href={acao} target="_blank" rel="noopener">
+      Pedir orçamento
+    </a>
+  </div>
+</header>
+
+<style>
+  .topo {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0);
+    border-bottom: 1px solid transparent;
+    transition:
+      background 0.4s var(--suave),
+      border-color 0.4s var(--suave);
+  }
+
+  .topo.fixado {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom-color: var(--linha);
+  }
+
+  .topo-int {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: var(--topo);
+  }
+
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .marca-v {
+    width: 30px;
+    height: 27px;
+    color: var(--azul);
+    flex: none;
+  }
+
+  .marca-texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .marca-texto strong {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .marca-texto em {
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--cinza);
+    margin-top: 3px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 30px;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+
+  .nav a {
+    position: relative;
+    font-size: 15px;
+    color: var(--cinza);
+    text-decoration: none;
+    padding-bottom: 3px;
+    transition: color 0.3s;
+  }
+
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--azul);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--suave);
+  }
+
+  .nav a:hover {
+    color: var(--tinta);
+  }
+
+  .nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .topo-acao {
+    padding: 11px 20px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .marca-texto strong {
+      font-size: 17px;
+    }
+    .topo-acao {
+      padding: 10px 15px;
+      font-size: 13px;
+    }
+  }
+</style>
+
+<script>
+  const topo = document.getElementById('topo');
+  let pendente = false;
+
+  function aoRolar(): void {
+    topo?.classList.toggle('fixado', window.scrollY > 40);
+    pendente = false;
+  }
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!pendente) {
+        pendente = true;
+        window.requestAnimationFrame(aoRolar);
+      }
+    },
+    { passive: true },
+  );
+
+  aoRolar();
+</script>

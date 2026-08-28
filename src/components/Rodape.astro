@@ -1,0 +1,82 @@
+---
+import { empresa } from '../data/empresa';
+
+const ano = new Date().getFullYear();
+---
+
+<footer class="rodape">
+  <div class="env rodape-int">
+    <div class="rodape-marca">
+      <svg class="rodape-v" viewBox="0 0 161 146" aria-hidden="true">
+        <use href="#marca-v"></use>
+      </svg>
+      <span>
+        <strong>Vetralumi</strong>
+        <em>componentes</em>
+      </span>
+    </div>
+
+    <div class="rodape-dados">
+      <p>{empresa.endereco.cidade} — {empresa.endereco.uf}</p>
+      <p>CNPJ {empresa.cnpj}</p>
+      <p>© {ano} {empresa.nome}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    background: var(--grafite);
+    color: #8b929d;
+    padding: 44px 0;
+    font-size: 14px;
+  }
+
+  .rodape-int {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .rodape-marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .rodape-v {
+    width: 28px;
+    height: 25px;
+    color: var(--azul);
+  }
+
+  .rodape-marca strong {
+    display: block;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .rodape-marca em {
+    font-style: normal;
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    line-height: 1;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .rodape-dados {
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 560px) {
+    .rodape-dados {
+      text-align: left;
+    }
+  }
+</style>

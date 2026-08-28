@@ -1,0 +1,92 @@
+---
+import '../styles/global.css';
+import { empresa, enderecoCompleto } from '../data/empresa';
+
+interface Props {
+  titulo: string;
+  descricao: string;
+}
+
+const { titulo, descricao } = Astro.props;
+const canonica = new URL(Astro.url.pathname, Astro.site).href;
+const { endereco } = empresa;
+
+const dadosEstruturados = {
+  '@context': 'https://schema.org',
+  '@type': 'HardwareStore',
+  name: empresa.nome,
+  description: descricao,
+  url: canonica,
+  telephone: empresa.telefone.e164,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${endereco.logradouro}${endereco.numero ? `, ${endereco.numero}` : ''}`,
+    addressLocality: endereco.cidade,
+    addressRegion: endereco.uf,
+    postalCode: endereco.cep,
+    addressCountry: 'BR',
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '07:30',
+    closes: '17:00',
+  },
+  areaServed: 'Concórdia e região do Alto Uruguai catarinense',
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonica} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonica} />
+    <meta name="theme-color" content="#325fec" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)} is:inline />
+    <meta name="geo.placename" content={enderecoCompleto(endereco)} />
+  </head>
+
+  <body>
+    <slot />
+
+    <script>
+      const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const alvos = document.querySelectorAll<HTMLElement>('.rev');
+
+      if ('IntersectionObserver' in window && !reduzir) {
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            for (const entrada of entradas) {
+              if (entrada.isIntersecting) {
+                entrada.target.classList.add('visto');
+                observador.unobserve(entrada.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+        );
+        alvos.forEach((alvo) => observador.observe(alvo));
+      } else {
+        alvos.forEach((alvo) => alvo.classList.add('visto'));
+      }
+    </script>
+  </body>
+</html>

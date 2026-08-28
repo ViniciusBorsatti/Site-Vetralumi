@@ -1,0 +1,228 @@
+/* Tokens da marca Vetralumi. Azul extraído do logotipo: #325FEC. */
+
+:root {
+  --azul: #325fec;
+  --azul-fundo: #1b3fcb;
+  --azul-fraco: #eaefff;
+
+  --grafite: #101114;
+  --tinta: #1a1b1e;
+  --cinza: #6c7280;
+  --linha: #e3e6eb;
+  --nevoa: #f4f6f9;
+  --branco: #ffffff;
+
+  --sans: 'Poppins', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --suave: cubic-bezier(0.22, 0.7, 0.28, 1);
+  --saida: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --largura: 1200px;
+  --respiro: 24px;
+  --topo: 76px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--branco);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 3px;
+}
+
+.env {
+  width: 100%;
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 0 var(--respiro);
+}
+
+/* Etiqueta técnica: monoespaçada, como código de peça em catálogo. */
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--azul);
+}
+
+.etiqueta::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: var(--azul);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: cota 0.9s var(--saida) 0.4s forwards;
+}
+
+@keyframes cota {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.titulo {
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-top: 18px;
+}
+
+.secao {
+  padding: clamp(64px, 9vw, 118px) 0;
+}
+
+.secao--nevoa {
+  background: var(--nevoa);
+}
+
+.secao--escura {
+  background: var(--grafite);
+  color: #fff;
+}
+
+.chamada-secao {
+  max-width: 54ch;
+  margin-top: 18px;
+  color: var(--cinza);
+  font-size: 18px;
+}
+
+.secao--escura .chamada-secao {
+  color: #9aa1ac;
+}
+
+/* Botões */
+.btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 26px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    color 0.35s var(--suave),
+    border-color 0.35s var(--suave);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--suave);
+}
+
+.btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn--cheio {
+  background: var(--azul);
+  color: #fff;
+}
+
+.btn--cheio::before {
+  background: var(--azul-fundo);
+}
+
+.btn--linha {
+  border-color: var(--linha);
+  color: var(--tinta);
+}
+
+.btn--linha::before {
+  background: var(--tinta);
+}
+
+.btn--linha:hover {
+  color: #fff;
+  border-color: var(--tinta);
+}
+
+/* Revelação em rolagem */
+.rev {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.8s var(--saida),
+    transform 0.8s var(--saida);
+  transition-delay: var(--atraso, 0s);
+}
+
+.rev.visto {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 520px) {
+  body {
+    font-size: 16px;
+  }
+  :root {
+    --respiro: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .rev {
+    opacity: 1;
+    transform: none;
+  }
+  .etiqueta::before {
+    transform: scaleX(1);
+  }
+}

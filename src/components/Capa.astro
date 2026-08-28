@@ -1,0 +1,237 @@
+---
+import { empresa, linkWhatsapp } from '../data/empresa';
+
+const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.telefone.e164}`;
+---
+
+<section class="capa">
+  <div class="env capa-int">
+    <div class="capa-texto">
+      <p class="etiqueta">Concórdia · Santa Catarina</p>
+
+      <h1 class="capa-titulo">
+        <span><b style="animation-delay:.55s">Componentes para</b></span>
+        <span><b style="animation-delay:.66s">esquadrias de</b></span>
+        <span><b style="animation-delay:.77s">alumínio.</b></span>
+      </h1>
+
+      <p class="capa-sub surge" style="animation-delay:.95s">{empresa.subChamada}</p>
+
+      <div class="capa-acoes surge" style="animation-delay:1.08s">
+        <a class="btn btn--cheio" href={acao} target="_blank" rel="noopener">Pedir orçamento</a>
+        <a class="btn btn--linha" href="#produtos">Ver produtos</a>
+      </div>
+    </div>
+
+    <div class="capa-visual">
+      <svg class="capa-marca" viewBox="0 0 161 146" aria-hidden="true">
+        <use href="#marca-v"></use>
+      </svg>
+      <figure class="capa-foto">
+        <img
+          src="/produtos/dobradica-mao.jpg"
+          alt="Dobradiça Vetralumi para esquadria de alumínio"
+          width="335"
+          height="597"
+          loading="eager"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .capa {
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--topo) + clamp(36px, 7vw, 78px)) 0 clamp(56px, 8vw, 96px);
+  }
+
+  /* Malha técnica de fundo, como papel milimetrado de projeto. */
+  .capa::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--linha) 1px, transparent 1px),
+      linear-gradient(90deg, var(--linha) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(circle at 72% 42%, #000 0%, transparent 68%);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .capa-int {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+
+  .capa-titulo {
+    margin-top: 20px;
+    font-size: clamp(2.3rem, 5.6vw, 4.1rem);
+    font-weight: 600;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+  }
+
+  .capa-titulo span {
+    display: block;
+    overflow: hidden;
+  }
+
+  .capa-titulo b {
+    display: block;
+    font-weight: 600;
+    transform: translateY(105%);
+    animation: subir 1s var(--saida) forwards;
+  }
+
+  @keyframes subir {
+    to {
+      transform: none;
+    }
+  }
+
+  .capa-sub {
+    margin-top: 24px;
+    max-width: 44ch;
+    color: var(--cinza);
+    font-size: 19px;
+  }
+
+  .capa-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+
+  .surge {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: surgir 0.9s var(--saida) forwards;
+  }
+
+  @keyframes surgir {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- visual: marca montando + foto ---- */
+  .capa-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .capa-marca {
+    position: absolute;
+    top: -6%;
+    left: 50%;
+    width: clamp(300px, 34vw, 460px);
+    height: auto;
+    transform: translateX(-58%);
+    color: var(--azul-fraco);
+    z-index: 0;
+  }
+
+  /* As duas lâminas entram de lados opostos e encaixam — a peça se montando. */
+  .capa-marca :global(.lamina--esq) {
+    transform: translate(-42%, 30%);
+    opacity: 0;
+    animation: encaixaEsq 1.15s var(--saida) 0.15s forwards;
+  }
+
+  .capa-marca :global(.lamina--dir) {
+    transform: translate(46%, -34%);
+    opacity: 0;
+    animation: encaixaDir 1.15s var(--saida) 0.3s forwards;
+  }
+
+  @keyframes encaixaEsq {
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes encaixaDir {
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  .capa-foto {
+    position: relative;
+    z-index: 1;
+    width: min(300px, 76%);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--nevoa);
+    box-shadow: 0 26px 60px -28px rgba(16, 17, 20, 0.5);
+    clip-path: inset(0 0 100% 0);
+    animation: revelaFoto 1.15s var(--saida) 0.5s forwards;
+  }
+
+  .capa-foto img {
+    width: 100%;
+    height: auto;
+    transform: scale(1.1);
+    animation: assenta 1.6s var(--saida) 0.5s forwards;
+  }
+
+  @keyframes revelaFoto {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes assenta {
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .capa-int {
+      grid-template-columns: 1fr;
+    }
+    .capa-visual {
+      order: -1;
+      justify-content: flex-start;
+    }
+    .capa-foto {
+      width: min(210px, 60%);
+    }
+    .capa-marca {
+      width: 250px;
+      top: -14%;
+      left: 42%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .capa-titulo b,
+    .capa-foto img {
+      transform: none;
+    }
+    .surge {
+      opacity: 1;
+      transform: none;
+    }
+    .capa-foto {
+      clip-path: none;
+    }
+    .capa-marca :global(.lamina--esq),
+    .capa-marca :global(.lamina--dir) {
+      transform: none;
+      opacity: 1;
+    }
+  }
+</style>

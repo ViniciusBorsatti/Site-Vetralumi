@@ -1,0 +1,162 @@
+---
+import { empresa, enderecoCompleto, linkMapa, linkWhatsapp } from '../data/empresa';
+
+const { endereco, telefone, whatsapp, email, instagram } = empresa;
+---
+
+<section class="secao secao--nevoa" id="contato">
+  <div class="env">
+    <div class="rev">
+      <p class="etiqueta">Contato</p>
+      <h2 class="titulo">Onde encontrar</h2>
+    </div>
+
+    <div class="grade">
+      <div class="rev" style="--atraso:.08s">
+        <div class="bloco">
+          <h3>Endereço</h3>
+          <p>{enderecoCompleto(endereco)}</p>
+          <p><small>CEP {endereco.cep}</small></p>
+          <a class="link-mapa" href={linkMapa(endereco)} target="_blank" rel="noopener">
+            Abrir no mapa
+          </a>
+        </div>
+
+        <div class="bloco">
+          <h3>Horário</h3>
+          <p>{empresa.horario}</p>
+          <p><small>Sábado e domingo fechado</small></p>
+        </div>
+      </div>
+
+      <div class="rev" style="--atraso:.16s">
+        <div class="bloco">
+          <h3>Telefone</h3>
+          <p><a class="link" href={`tel:${telefone.e164}`}>{telefone.exibicao}</a></p>
+        </div>
+
+        {
+          whatsapp && (
+            <div class="bloco">
+              <h3>WhatsApp</h3>
+              <p>
+                <a class="link" href={linkWhatsapp(whatsapp)} target="_blank" rel="noopener">
+                  {whatsapp.exibicao}
+                </a>
+              </p>
+            </div>
+          )
+        }
+
+        {
+          email && (
+            <div class="bloco">
+              <h3>E-mail</h3>
+              <p>
+                <a class="link" href={`mailto:${email}`}>{email}</a>
+              </p>
+            </div>
+          )
+        }
+
+        {
+          instagram && (
+            <div class="bloco">
+              <h3>Instagram</h3>
+              <p>
+                <a class="link" href={`https://instagram.com/${instagram}`} target="_blank" rel="noopener">
+                  @{instagram}
+                </a>
+              </p>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 46px;
+  }
+
+  .bloco + .bloco {
+    margin-top: 32px;
+  }
+
+  .bloco h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--azul);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .bloco p {
+    font-size: 18px;
+  }
+
+  .bloco small {
+    color: var(--cinza);
+    font-size: 15px;
+  }
+
+  .link {
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: var(--azul);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--suave);
+  }
+
+  .link:hover {
+    color: var(--azul);
+  }
+
+  .link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .link-mapa {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--azul);
+    text-decoration: none;
+    border-bottom: 1px solid var(--azul);
+    padding-bottom: 3px;
+    transition: opacity 0.3s;
+  }
+
+  .link-mapa:hover {
+    opacity: 0.62;
+  }
+
+  @media (max-width: 780px) {
+    .grade {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

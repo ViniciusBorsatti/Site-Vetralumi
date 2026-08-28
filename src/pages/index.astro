@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import MarcaV from '../components/MarcaV.astro';
+import Cabecalho from '../components/Cabecalho.astro';
+import Capa from '../components/Capa.astro';
+import Produtos from '../components/Produtos.astro';
+import ParaQuem from '../components/ParaQuem.astro';
+import Diferenciais from '../components/Diferenciais.astro';
+import Contato from '../components/Contato.astro';
+import Rodape from '../components/Rodape.astro';
+import BotaoFlutuante from '../components/BotaoFlutuante.astro';
+import { empresa } from '../data/empresa';
+
+const titulo = `${empresa.nome} — Esquadrias de alumínio | ${empresa.endereco.cidade}/${empresa.endereco.uf}`;
+const descricao = `${empresa.descricaoBreve} Dobradiças nos acabamentos preto, cromado e branco.`;
+---
+
+<Base titulo={titulo} descricao={descricao}>
+  <MarcaV />
+  <Cabecalho />
+  <main>
+    <Capa />
+    <Produtos />
+    <ParaQuem />
+    <Diferenciais />
+    <Contato />
+  </main>
+  <Rodape />
+  <BotaoFlutuante />
+</Base>
