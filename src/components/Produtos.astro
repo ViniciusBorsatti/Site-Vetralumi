@@ -244,6 +244,25 @@ const colunas = (n: number): number => (n % 3 === 0 ? 3 : n % 2 === 0 ? 2 : 3);
     });
   }
 
+  /* Resolve quando a imagem estiver pronta. Nunca rejeita e nunca fica pendente:
+     erro e estouro de prazo também resolvem, para a foto sempre reaparecer. */
+  function carregada(src: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const img = new Image();
+      let encerrado = false;
+      const fim = (): void => {
+        if (encerrado) return;
+        encerrado = true;
+        resolve();
+      };
+      img.addEventListener('load', fim, { once: true });
+      img.addEventListener('error', fim, { once: true });
+      img.src = src;
+      if (img.complete) fim();
+      window.setTimeout(fim, 2000);
+    });
+  }
+
   if (typeof window.requestIdleCallback === 'function') {
     window.requestIdleCallback(precarregar);
   } else {
@@ -265,15 +284,12 @@ const colunas = (n: number): number => (n % 3 === 0 ? 3 : n % 2 === 0 ? 2 : 3);
 
       foto.classList.add('trocando');
 
-      /* Só devolve a opacidade quando a nova imagem já está decodificada e o
-         esmaecimento terminou — é o que tirava o "seco e com atraso". */
-      const decodificada = new Image();
-      decodificada.src = imagem;
-
-      const pronta = decodificada.decode().catch(() => undefined);
+      /* Só devolve a opacidade quando a nova imagem terminou de carregar e o
+         esmaecimento passou — é o que tirava o "seco e com atraso". O prazo
+         máximo existe para que a foto nunca fique invisível se o load falhar. */
       const esmaecimento = new Promise<void>((resolve) => window.setTimeout(resolve, 180));
 
-      void Promise.all([pronta, esmaecimento]).then(() => {
+      void Promise.all([carregada(imagem), esmaecimento]).then(() => {
         if (foto.dataset.atual !== imagem) return;
         foto.src = imagem;
         foto.classList.remove('trocando');
