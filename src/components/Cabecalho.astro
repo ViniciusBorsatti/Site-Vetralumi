@@ -241,18 +241,6 @@ const acao = empresa.whatsapp
     }
   });
 
-  /* Enquanto a pessoa não escolher, o site acompanha o sistema. */
-  const preferencia = window.matchMedia('(prefers-color-scheme: dark)');
-  preferencia.addEventListener('change', (e) => {
-    let salvo: string | null = null;
-    try {
-      salvo = localStorage.getItem('tema');
-    } catch (err) {
-      /* sem acesso ao armazenamento: segue o sistema */
-    }
-    if (salvo !== 'claro' && salvo !== 'escuro') marcarTema(e.matches ? 'escuro' : 'claro');
-  });
-
   const topo = document.getElementById('topo');
   let pendente = false;
 
