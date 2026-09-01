@@ -6,6 +6,9 @@
   --azul: #325fec;
   --azul-fundo: #1b3fcb;
   --azul-fraco: #eaefff;
+  /* Azul de texto: no tema escuro clareia, para o rótulo continuar legível.
+     O --azul cheio segue exato, porque é a cor da marca em preenchimentos. */
+  --azul-rotulo: #325fec;
 
   --papel: #f7f9fd;
   --branco: #ffffff;
@@ -23,10 +26,42 @@
   --suave: cubic-bezier(0.22, 0.7, 0.28, 1);
   --saida: cubic-bezier(0.16, 1, 0.3, 1);
 
+  --topo-fundo: rgba(255, 255, 255, 0.82);
+  --topo-fixo: #ffffff;
+  --halo: rgba(255, 255, 255, 0.92);
+  --sombra: rgba(16, 17, 20, 0.45);
+
+  color-scheme: light;
+
   --largura: 1200px;
   --respiro: 24px;
   --topo: 76px;
   --malha-passo: 40px;
+}
+
+/* Tema escuro. Os PALCOS DE MÍDIA (--palco) continuam claros de propósito:
+   a dobradiça preta e o mapa têm fundo claro embutido e sumiriam no escuro.
+   A leitura é de interface escura com pranchas claras por cima. */
+:root[data-tema='escuro'] {
+  color-scheme: dark;
+
+  --papel: #0d0f13;
+  --branco: #14171d;
+  --palco: #eef2f8;
+  --malha: #171b22;
+  --linha: #252b36;
+
+  --tinta: #e9ebef;
+  --cinza: #98a0ac;
+  --cinza-claro: #79818f;
+
+  --azul-rotulo: #7a99f7;
+  --azul-fraco: #16244a;
+
+  --topo-fundo: rgba(13, 15, 19, 0.82);
+  --topo-fixo: #0d0f13;
+  --halo: rgba(20, 23, 29, 0.86);
+  --sombra: rgba(0, 0, 0, 0.6);
 }
 
 *,
@@ -90,12 +125,12 @@ a {
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--azul);
+  color: var(--azul-rotulo);
 }
 
 .secao .etiqueta::before {
   content: '[ ' counter(secao, decimal-leading-zero) ' ]';
-  color: var(--azul);
+  color: var(--azul-rotulo);
   opacity: 0;
   animation: surgeEtiqueta 0.7s var(--saida) 0.25s forwards;
 }
@@ -154,6 +189,12 @@ a {
   position: relative;
   background: var(--branco);
   border: 1px solid var(--linha);
+}
+
+.produto-visual .quadro-rotulo,
+.desenho .quadro-rotulo,
+.mapa .quadro-rotulo {
+  color: #7b849a;
 }
 
 .quadro-rotulo {
@@ -250,7 +291,7 @@ a {
 
 .btn--linha {
   border-color: var(--azul);
-  color: var(--azul);
+  color: var(--azul-rotulo);
 }
 
 .btn--linha::before {

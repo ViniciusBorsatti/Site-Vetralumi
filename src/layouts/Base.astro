@@ -52,6 +52,20 @@ const dadosEstruturados = {
     <meta property="og:url" content={canonica} />
     <meta name="theme-color" content="#325fec" />
 
+    <!-- Resolve o tema antes de pintar, senão a página pisca no tema errado. -->
+    <script is:inline>
+      (function () {
+        var t = null;
+        try {
+          t = localStorage.getItem('tema');
+        } catch (e) {}
+        if (t !== 'claro' && t !== 'escuro') {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro';
+        }
+        document.documentElement.dataset.tema = t;
+      })();
+    </script>
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

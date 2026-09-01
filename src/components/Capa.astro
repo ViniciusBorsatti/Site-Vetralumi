@@ -53,7 +53,7 @@ const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 72% 44%, rgba(255, 255, 255, 0.92), transparent 62%);
+    background: radial-gradient(circle at 72% 44%, var(--halo), transparent 62%);
     pointer-events: none;
   }
 
@@ -173,7 +173,7 @@ const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.
     width: min(320px, 78%);
     padding: 30px 14px 14px;
     overflow: hidden;
-    box-shadow: 0 26px 60px -32px rgba(16, 17, 20, 0.45);
+    box-shadow: 0 26px 60px -32px var(--sombra);
     clip-path: inset(0 0 100% 0);
     animation: revelaFoto 1.15s var(--saida) 0.5s forwards;
   }
