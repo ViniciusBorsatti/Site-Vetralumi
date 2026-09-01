@@ -95,7 +95,9 @@ export const empresa: Empresa = {
 
   email: undefined, // CONFERIR
   instagram: undefined, // CONFERIR
-  mercadoLivre: undefined, // CONFERIR: link da loja, não de um anúncio específico
+  // CONFERIR: este é o link de UM ANÚNCIO, não da loja. Trocar pelo link da
+  // loja quando o cliente confirmar — se o anúncio sair do ar, o botão quebra.
+  mercadoLivre: 'https://produto.mercadolivre.com.br/MLB-4683783809',
 
   horario: 'Segunda a sexta, das 7h30 às 17h',
 
