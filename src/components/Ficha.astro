@@ -1,0 +1,256 @@
+---
+/**
+ * Ficha dimensional: a foto da peça com as cotas se desenhando,
+ * no mesmo vocabulário do material impresso da empresa.
+ */
+import { empresa } from '../data/empresa';
+
+const dobradica = empresa.produtos[0]!;
+const cotas = dobradica.especificacoes.filter((e) =>
+  ['Material', 'Abertura', 'Regulagem', 'Capacidade'].includes(e.rotulo),
+);
+---
+
+<section class="secao" id="ficha">
+  <div class="env ficha-grade">
+    <div class="rev">
+      <p class="etiqueta">Ficha técnica</p>
+      <h2 class="titulo">Medidas da dobradiça</h2>
+      <p class="chamada-secao">
+        Corpo de 75 por 71 milímetros, 14 de espessura e pino de 55. Aço inoxidável, três
+        níveis de regulagem e abertura de 180 graus.
+      </p>
+
+      <dl class="resumo">
+        {
+          cotas.map((c) => (
+            <div>
+              <dt>{c.rotulo}</dt>
+              <dd>{c.valor}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <figure class="desenho rev" style="--atraso:.12s" id="desenho">
+      <img src="/produtos/dobradica-cromada.png" alt="Dobradiça com mola Vetralumi" width="524" height="620" loading="lazy" />
+
+      <svg class="cotas" viewBox="0 0 660 760" aria-hidden="true">
+        <g class="linha-cota">
+          <path class="traco" d="M68 44 H592" />
+          <path class="seta" d="M68 44 l11 -6 M68 44 l11 6" />
+          <path class="seta" d="M592 44 l-11 -6 M592 44 l-11 6" />
+          <path class="chamada" d="M68 62 V96" />
+          <path class="chamada" d="M592 62 V96" />
+        </g>
+        <text class="rotulo" x="330" y="32" text-anchor="middle">71 mm</text>
+
+        <g class="linha-cota linha-cota--2">
+          <path class="traco" d="M40 100 V700" />
+          <path class="seta" d="M40 100 l-6 11 M40 100 l6 11" />
+          <path class="seta" d="M40 700 l-6 -11 M40 700 l6 -11" />
+          <path class="chamada" d="M58 100 H92" />
+          <path class="chamada" d="M58 700 H92" />
+        </g>
+        <text class="rotulo" x="22" y="400" text-anchor="middle" transform="rotate(-90 22 400)"
+          >75 mm</text
+        >
+
+        <g class="linha-cota linha-cota--3">
+          <path class="traco" d="M620 190 V610" />
+          <path class="seta" d="M620 190 l-6 11 M620 190 l6 11" />
+          <path class="seta" d="M620 610 l-6 -11 M620 610 l6 -11" />
+          <path class="chamada" d="M602 190 H568" />
+          <path class="chamada" d="M602 610 H568" />
+        </g>
+        <text class="rotulo" x="642" y="400" text-anchor="middle" transform="rotate(90 642 400)"
+          >55 mm</text
+        >
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .ficha-grade {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(30px, 5vw, 64px);
+    align-items: center;
+  }
+
+  .resumo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--linha);
+    border: 1px solid var(--linha);
+    border-radius: 2px;
+    margin-top: 30px;
+  }
+
+  .resumo div {
+    background: var(--branco);
+    padding: 14px 16px;
+  }
+
+  .resumo dt {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cinza);
+  }
+
+  .resumo dd {
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .desenho {
+    position: relative;
+    display: grid;
+    place-items: center;
+    background: var(--nevoa);
+    border: 1px solid var(--linha);
+    border-radius: 3px;
+    padding: 40px 46px;
+  }
+
+  .desenho img {
+    width: auto;
+    max-height: 340px;
+    object-fit: contain;
+  }
+
+  .cotas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .traco,
+  .seta,
+  .chamada {
+    fill: none;
+    stroke: var(--azul);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+
+  .chamada {
+    stroke-width: 1;
+    opacity: 0.5;
+  }
+
+  /* Cada cota se desenha: o traço corre, depois as setas e o rótulo aparecem. */
+  .traco {
+    stroke-dasharray: var(--comp, 600);
+    stroke-dashoffset: var(--comp, 600);
+    transition: stroke-dashoffset 0.85s var(--saida);
+  }
+
+  .seta,
+  .chamada,
+  .rotulo {
+    opacity: 0;
+    transition: opacity 0.4s var(--suave);
+  }
+
+  .rotulo {
+    fill: var(--azul);
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.06em;
+  }
+
+  .desenho.visto .traco {
+    stroke-dashoffset: 0;
+  }
+
+  .desenho.visto .seta,
+  .desenho.visto .chamada,
+  .desenho.visto .rotulo {
+    opacity: 1;
+    transition-delay: 0.7s;
+  }
+
+  .desenho.visto .linha-cota--2 .traco {
+    transition-delay: 0.18s;
+  }
+
+  .desenho.visto .linha-cota--3 .traco {
+    transition-delay: 0.36s;
+  }
+
+  .desenho.visto .linha-cota--2 .seta,
+  .desenho.visto .linha-cota--2 .chamada {
+    transition-delay: 0.88s;
+  }
+
+  .desenho.visto .linha-cota--3 .seta,
+  .desenho.visto .linha-cota--3 .chamada {
+    transition-delay: 1.06s;
+  }
+
+  @media (max-width: 860px) {
+    .ficha-grade {
+      grid-template-columns: 1fr;
+    }
+    .desenho {
+      padding: 34px 40px;
+    }
+    .desenho img {
+      max-height: 260px;
+    }
+    .rotulo {
+      font-size: 19px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .traco {
+      stroke-dashoffset: 0;
+    }
+    .seta,
+    .chamada,
+    .rotulo {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const desenho = document.getElementById('desenho');
+
+  if (desenho) {
+    desenho.querySelectorAll<SVGPathElement>('.traco').forEach((traco) => {
+      const comp = Math.ceil(traco.getTotalLength());
+      traco.style.setProperty('--comp', String(comp));
+    });
+
+    const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduzir || !('IntersectionObserver' in window)) {
+      desenho.classList.add('visto');
+    } else {
+      const obs = new IntersectionObserver(
+        (entradas) => {
+          for (const e of entradas) {
+            if (e.isIntersecting) {
+              e.target.classList.add('visto');
+              obs.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.35 },
+      );
+      obs.observe(desenho);
+    }
+  }
+</script>

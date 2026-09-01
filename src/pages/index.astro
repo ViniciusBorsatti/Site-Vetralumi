@@ -4,15 +4,16 @@ import MarcaV from '../components/MarcaV.astro';
 import Cabecalho from '../components/Cabecalho.astro';
 import Capa from '../components/Capa.astro';
 import Produtos from '../components/Produtos.astro';
-import ParaQuem from '../components/ParaQuem.astro';
-import Diferenciais from '../components/Diferenciais.astro';
+import Ficha from '../components/Ficha.astro';
+import Aplicacoes from '../components/Aplicacoes.astro';
+import Rede from '../components/Rede.astro';
 import Contato from '../components/Contato.astro';
 import Rodape from '../components/Rodape.astro';
 import BotaoFlutuante from '../components/BotaoFlutuante.astro';
 import { empresa } from '../data/empresa';
 
 const titulo = `${empresa.nome} — Esquadrias de alumínio | ${empresa.endereco.cidade}/${empresa.endereco.uf}`;
-const descricao = `${empresa.descricaoBreve} Dobradiças nos acabamentos preto, cromado e branco.`;
+const descricao = `${empresa.descricaoBreve} Dobradiça com mola em aço inoxidável e roldana Rol 440.`;
 ---
 
 <Base titulo={titulo} descricao={descricao}>
@@ -21,8 +22,9 @@ const descricao = `${empresa.descricaoBreve} Dobradiças nos acabamentos preto, 
   <main>
     <Capa />
     <Produtos />
-    <ParaQuem />
-    <Diferenciais />
+    <Ficha />
+    <Aplicacoes />
+    <Rede />
     <Contato />
   </main>
   <Rodape />
