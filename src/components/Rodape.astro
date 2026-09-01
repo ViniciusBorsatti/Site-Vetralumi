@@ -27,8 +27,9 @@ const ano = new Date().getFullYear();
 
 <style>
   .rodape {
-    background: var(--grafite);
-    color: #8b929d;
+    background: var(--papel);
+    border-top: 1px solid var(--linha);
+    color: var(--cinza);
     padding: 44px 0;
     font-size: 14px;
   }
@@ -55,7 +56,7 @@ const ano = new Date().getFullYear();
 
   .rodape-marca strong {
     display: block;
-    color: #fff;
+    color: var(--tinta);
     font-size: 17px;
     font-weight: 600;
     line-height: 1;
@@ -63,8 +64,11 @@ const ano = new Date().getFullYear();
 
   .rodape-marca em {
     font-style: normal;
+    font-family: var(--mono);
     font-size: 9px;
     letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--cinza-claro);
     line-height: 1;
     margin-top: 4px;
     display: block;

@@ -3,32 +3,49 @@ import { empresa, linkWhatsapp } from '../data/empresa';
 
 const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.telefone.e164}`;
 const { rede } = empresa;
+const listaUf = rede.estados.join(', ');
 ---
 
-<section class="secao secao--escura" id="rede">
+<section class="secao" id="rede">
   <div class="env">
-    <div class="rede-topo">
-      <div class="rev">
-        <p class="etiqueta">Distribuição</p>
-        <h2 class="titulo">O começo de uma grande rede</h2>
-        <p class="chamada-secao">{rede.texto}</p>
-      </div>
-
-      <div class="contador rev" style="--atraso:.1s">
-        <span class="numero" id="contador" data-alvo={rede.distribuidores}>0</span>
-        <span class="legenda">distribuidores</span>
-      </div>
+    <div class="rev">
+      <p class="etiqueta">Distribuição</p>
+      <h2 class="titulo">O começo de uma grande rede</h2>
+      <p class="chamada-secao">{rede.texto}</p>
     </div>
 
-    <ul class="estados rev" style="--atraso:.18s">
-      {
-        rede.estados.map((uf, i) => (
-          <li class="uf" style={`--atraso:${(i * 0.05).toFixed(2)}s`}>
-            {uf}
-          </li>
-        ))
-      }
-    </ul>
+    <div class="rede-grade">
+      <div class="rev" style="--atraso:.08s">
+        <div class="contador">
+          <span class="numero" id="contador" data-alvo={rede.distribuidores}>0</span>
+          <span class="legenda">
+            distribuidores<br />
+            em {rede.estados.length} estados
+          </span>
+        </div>
+
+        <ul class="estados">
+          {
+            rede.estados.map((uf, i) => (
+              <li class="uf" style={`--atraso:${(i * 0.05).toFixed(2)}s`}>
+                {uf}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <figure class="mapa quadro rev" style="--atraso:.16s">
+        <span class="quadro-rotulo">Cobertura — {rede.estados.length} UF</span>
+        <img
+          src="/mapa-rede.png"
+          alt={`Mapa do Brasil com os estados atendidos pela Vetralumi: ${listaUf}`}
+          width="900"
+          height="896"
+          loading="lazy"
+        />
+      </figure>
+    </div>
 
     <div class="chamada rev">
       <p>Quer distribuir a linha Vetralumi na sua região?</p>
@@ -38,20 +55,27 @@ const { rede } = empresa;
 </section>
 
 <style>
-  .rede-topo {
+  .rede-grade {
     display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
-    gap: 40px;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(32px, 5vw, 64px);
     align-items: center;
+    margin-top: 48px;
+  }
+  .rede-grade > * {
+    min-width: 0;
   }
 
+
   .contador {
-    text-align: right;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
   }
 
   .numero {
-    display: block;
-    font-size: clamp(4rem, 11vw, 8rem);
+    font-family: var(--mono);
+    font-size: clamp(4rem, 9vw, 6.5rem);
     font-weight: 700;
     line-height: 0.9;
     letter-spacing: -0.05em;
@@ -60,29 +84,26 @@ const { rede } = empresa;
   }
 
   .legenda {
-    display: block;
-    margin-top: 8px;
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #9aa1ac;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
   }
 
   .estados {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     list-style: none;
-    margin-top: 44px;
-    padding-top: 34px;
-    border-top: 1px solid #26282e;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--linha);
   }
 
   .uf {
-    padding: 10px 20px;
-    border: 1px solid #2e3138;
-    border-radius: 2px;
+    padding: 9px 18px;
+    background: var(--branco);
+    border: 1px solid var(--linha);
     font-family: var(--mono);
     font-size: 14px;
     letter-spacing: 0.1em;
@@ -96,6 +117,18 @@ const { rede } = empresa;
     color: var(--azul);
   }
 
+  .mapa {
+    display: grid;
+    place-items: center;
+    padding: 36px 26px 26px;
+  }
+
+  .mapa img {
+    width: 100%;
+    max-width: 470px;
+    height: auto;
+  }
+
   .chamada {
     display: flex;
     flex-wrap: wrap;
@@ -104,7 +137,7 @@ const { rede } = empresa;
     gap: 20px;
     margin-top: 54px;
     padding-top: 32px;
-    border-top: 1px solid #26282e;
+    border-top: 1px solid var(--linha);
   }
 
   .chamada p {
@@ -112,13 +145,10 @@ const { rede } = empresa;
     font-weight: 500;
   }
 
-  @media (max-width: 780px) {
-    .rede-topo {
+  @media (max-width: 860px) {
+    .rede-grade {
       grid-template-columns: 1fr;
-      gap: 26px;
-    }
-    .contador {
-      text-align: left;
+      gap: 32px;
     }
   }
 </style>

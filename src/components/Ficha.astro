@@ -21,7 +21,7 @@ const cotas = dobradica.especificacoes.filter((e) =>
         níveis de regulagem e abertura de 180 graus.
       </p>
 
-      <dl class="resumo">
+      <dl class="tabela resumo">
         {
           cotas.map((c) => (
             <div>
@@ -33,7 +33,8 @@ const cotas = dobradica.especificacoes.filter((e) =>
       </dl>
     </div>
 
-    <figure class="desenho rev" style="--atraso:.12s" id="desenho">
+    <figure class="desenho quadro rev" style="--atraso:.12s" id="desenho">
+      <span class="quadro-rotulo">Dobradiça c/ mola — cotas em mm</span>
       <img src="/produtos/dobradica-cromada.png" alt="Dobradiça com mola Vetralumi" width="524" height="620" loading="lazy" />
 
       <svg class="cotas" viewBox="0 0 660 760" aria-hidden="true">
@@ -79,44 +80,27 @@ const cotas = dobradica.especificacoes.filter((e) =>
     gap: clamp(30px, 5vw, 64px);
     align-items: center;
   }
+  .ficha-grade > * {
+    min-width: 0;
+  }
+
 
   .resumo {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1px;
-    background: var(--linha);
-    border: 1px solid var(--linha);
-    border-radius: 2px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 30px;
   }
 
-  .resumo div {
-    background: var(--branco);
-    padding: 14px 16px;
-  }
-
-  .resumo dt {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--cinza);
-  }
-
-  .resumo dd {
-    margin-top: 5px;
-    font-size: 15px;
-    font-weight: 500;
+  @media (max-width: 460px) {
+    .resumo {
+      grid-template-columns: 1fr;
+    }
   }
 
   .desenho {
-    position: relative;
     display: grid;
     place-items: center;
-    background: var(--nevoa);
-    border: 1px solid var(--linha);
-    border-radius: 3px;
-    padding: 40px 46px;
+    background: var(--palco);
+    padding: 46px 46px 40px;
   }
 
   .desenho img {

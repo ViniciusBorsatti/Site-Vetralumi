@@ -27,7 +27,8 @@ const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.
       <svg class="capa-marca" viewBox="0 0 161 146" aria-hidden="true">
         <use href="#marca-v"></use>
       </svg>
-      <figure class="capa-foto">
+      <figure class="capa-foto quadro">
+        <span class="quadro-rotulo">Dobradiça c/ mola — estoque</span>
         <img
           src="/produtos/galpao.jpg"
           alt="Dobradiça com mola Vetralumi, no estoque da empresa"
@@ -47,17 +48,12 @@ const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.
     padding: calc(var(--topo) + clamp(36px, 7vw, 78px)) 0 clamp(56px, 8vw, 96px);
   }
 
-  /* Malha técnica de fundo, como papel milimetrado de projeto. */
+  /* Halo claro que destaca o visual da capa sobre a malha do papel. */
   .capa::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(var(--linha) 1px, transparent 1px),
-      linear-gradient(90deg, var(--linha) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(circle at 72% 42%, #000 0%, transparent 68%);
-    opacity: 0.55;
+    background: radial-gradient(circle at 72% 44%, rgba(255, 255, 255, 0.92), transparent 62%);
     pointer-events: none;
   }
 
@@ -68,6 +64,10 @@ const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.
     gap: clamp(32px, 5vw, 64px);
     align-items: center;
   }
+  .capa-int > * {
+    min-width: 0;
+  }
+
 
   .capa-titulo {
     margin-top: 20px;
@@ -170,11 +170,10 @@ const acao = empresa.whatsapp ? linkWhatsapp(empresa.whatsapp) : `tel:${empresa.
   .capa-foto {
     position: relative;
     z-index: 1;
-    width: min(300px, 76%);
-    border-radius: 3px;
+    width: min(320px, 78%);
+    padding: 30px 14px 14px;
     overflow: hidden;
-    background: var(--nevoa);
-    box-shadow: 0 26px 60px -28px rgba(16, 17, 20, 0.5);
+    box-shadow: 0 26px 60px -32px rgba(16, 17, 20, 0.45);
     clip-path: inset(0 0 100% 0);
     animation: revelaFoto 1.15s var(--saida) 0.5s forwards;
   }

@@ -4,7 +4,7 @@ import { empresa, enderecoCompleto, linkMapa, linkWhatsapp } from '../data/empre
 const { endereco, telefone, whatsapp, email, instagram } = empresa;
 ---
 
-<section class="secao secao--nevoa" id="contato">
+<section class="secao secao--branca" id="contato">
   <div class="env">
     <div class="rev">
       <p class="etiqueta">Contato</p>
@@ -83,6 +83,10 @@ const { endereco, telefone, whatsapp, email, instagram } = empresa;
     gap: 48px;
     margin-top: 46px;
   }
+  .grade > * {
+    min-width: 0;
+  }
+
 
   .bloco + .bloco {
     margin-top: 32px;

@@ -1,16 +1,21 @@
-/* Tokens da marca Vetralumi. Azul extraído do logotipo: #325FEC. */
+/* Tokens da marca Vetralumi. Azul extraído do logotipo: #325FEC.
+   Direção visual: prancha técnica — papel claro com malha de desenho,
+   cartões brancos delimitados por fio fino e rótulos monoespaçados. */
 
 :root {
   --azul: #325fec;
   --azul-fundo: #1b3fcb;
   --azul-fraco: #eaefff;
 
-  --grafite: #101114;
-  --tinta: #1a1b1e;
-  --cinza: #6c7280;
-  --linha: #e3e6eb;
-  --nevoa: #f4f6f9;
+  --papel: #f7f9fd;
   --branco: #ffffff;
+  --palco: #f2f6fd;
+  --malha: #e4eaf6;
+  --linha: #d5deef;
+
+  --tinta: #101114;
+  --cinza: #5b6478;
+  --cinza-claro: #7b849a;
 
   --sans: 'Poppins', system-ui, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -21,6 +26,7 @@
   --largura: 1200px;
   --respiro: 24px;
   --topo: 76px;
+  --malha-passo: 40px;
 }
 
 *,
@@ -35,14 +41,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* A malha de desenho técnico corre por trás da página inteira; as seções
+   brancas passam por cima dela e criam o ritmo entre prancha e papel. */
 body {
-  background: var(--branco);
+  background-color: var(--papel);
+  background-image:
+    linear-gradient(var(--malha) 1px, transparent 1px),
+    linear-gradient(90deg, var(--malha) 1px, transparent 1px);
+  background-size: var(--malha-passo) var(--malha-passo);
   color: var(--tinta);
   font-family: var(--sans);
   font-size: 17px;
   line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  counter-reset: secao;
 }
 
 img {
@@ -66,19 +79,28 @@ a {
   padding: 0 var(--respiro);
 }
 
-/* Etiqueta técnica: monoespaçada, como código de peça em catálogo. */
+/* Etiqueta técnica: monoespaçada, como código de peça em catálogo.
+   Dentro de uma seção numerada ela recebe o índice [ 0N ] automaticamente. */
 .etiqueta {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--azul);
 }
 
-.etiqueta::before {
+.secao .etiqueta::before {
+  content: '[ ' counter(secao, decimal-leading-zero) ' ]';
+  color: var(--azul);
+  opacity: 0;
+  animation: surgeEtiqueta 0.7s var(--saida) 0.25s forwards;
+}
+
+.capa .etiqueta::before {
   content: '';
   width: 26px;
   height: 1px;
@@ -94,36 +116,90 @@ a {
   }
 }
 
+@keyframes surgeEtiqueta {
+  to {
+    opacity: 1;
+  }
+}
+
 .titulo {
   font-weight: 600;
   font-size: clamp(1.9rem, 4vw, 3rem);
   line-height: 1.12;
-  letter-spacing: -0.02em;
-  margin-top: 18px;
+  letter-spacing: -0.025em;
+  margin-top: 16px;
 }
 
 .secao {
-  padding: clamp(64px, 9vw, 118px) 0;
+  counter-increment: secao;
+  padding: clamp(64px, 9vw, 112px) 0;
 }
 
-.secao--nevoa {
-  background: var(--nevoa);
-}
-
-.secao--escura {
-  background: var(--grafite);
-  color: #fff;
+/* Seção em papel branco: cobre a malha e devolve respiro à leitura. */
+.secao--branca {
+  background: var(--branco);
+  border-top: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha);
 }
 
 .chamada-secao {
   max-width: 54ch;
-  margin-top: 18px;
+  margin-top: 16px;
   color: var(--cinza);
   font-size: 18px;
 }
 
-.secao--escura .chamada-secao {
-  color: #9aa1ac;
+/* Quadro: a moldura de prancha usada em fotos, desenhos e no mapa. */
+.quadro {
+  position: relative;
+  background: var(--branco);
+  border: 1px solid var(--linha);
+}
+
+.quadro-rotulo {
+  position: absolute;
+  top: 11px;
+  left: 14px;
+  right: 14px;
+  z-index: 1;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cinza-claro);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tabela técnica. As bordas ficam nas células, nunca no fundo do container:
+   assim uma linha incompleta não deixa células cinzas vazias na grade. */
+.tabela {
+  display: grid;
+  border-top: 1px solid var(--linha);
+  border-left: 1px solid var(--linha);
+  margin-top: 24px;
+}
+
+.tabela > * {
+  background: var(--branco);
+  border-right: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha);
+  padding: 13px 15px;
+}
+
+.tabela dt {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cinza-claro);
+}
+
+.tabela dd {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* Botões */
@@ -136,8 +212,11 @@ a {
   gap: 10px;
   padding: 15px 26px;
   border: 1px solid transparent;
-  border-radius: 2px;
-  font-size: 15px;
+  border-radius: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   font-weight: 500;
   text-decoration: none;
   transition:
@@ -170,17 +249,16 @@ a {
 }
 
 .btn--linha {
-  border-color: var(--linha);
-  color: var(--tinta);
+  border-color: var(--azul);
+  color: var(--azul);
 }
 
 .btn--linha::before {
-  background: var(--tinta);
+  background: var(--azul);
 }
 
 .btn--linha:hover {
   color: #fff;
-  border-color: var(--tinta);
 }
 
 /* Revelação em rolagem */
@@ -201,9 +279,26 @@ a {
 @media (max-width: 520px) {
   body {
     font-size: 16px;
+    --malha-passo: 28px;
   }
   :root {
     --respiro: 18px;
+  }
+  /* Em telas estreitas o rótulo monoespaçado com entreletra larga era o que
+     empurrava a página para além da viewport. */
+  .etiqueta {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    gap: 8px;
+  }
+  .btn {
+    padding: 14px 18px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+  .quadro-rotulo {
+    font-size: 9px;
+    letter-spacing: 0.1em;
   }
 }
 
@@ -222,7 +317,10 @@ a {
     opacity: 1;
     transform: none;
   }
-  .etiqueta::before {
+  .capa .etiqueta::before {
     transform: scaleX(1);
+  }
+  .secao .etiqueta::before {
+    opacity: 1;
   }
 }
