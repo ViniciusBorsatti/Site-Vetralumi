@@ -54,14 +54,31 @@ const dadosEstruturados = {
 
     <!-- Resolve o tema antes de pintar, senão a página pisca no tema errado.
          O padrão é o claro, mesmo com o sistema no escuro: só quem escolher
-         pelo botão do topo passa a abrir no escuro. -->
+         pelo botão do topo passa a abrir no escuro.
+         Exceção: dentro de um iframe (a prévia ao vivo num portfólio), o site
+         segue o tema de quem o incorpora. O navegador repassa o color-scheme
+         do iframe como prefers-color-scheme, e a troca acontece ao vivo. -->
     <script is:inline>
       (function () {
+        var raiz = document.documentElement;
+        var embutido = true;
+        try {
+          embutido = window.self !== window.top;
+        } catch (e) {}
+        if (embutido && window.matchMedia) {
+          var escuro = window.matchMedia('(prefers-color-scheme: dark)');
+          var aplicar = function () {
+            raiz.dataset.tema = escuro.matches ? 'escuro' : 'claro';
+          };
+          aplicar();
+          if (escuro.addEventListener) escuro.addEventListener('change', aplicar);
+          return;
+        }
         var t = null;
         try {
           t = localStorage.getItem('tema');
         } catch (e) {}
-        document.documentElement.dataset.tema = t === 'escuro' ? 'escuro' : 'claro';
+        raiz.dataset.tema = t === 'escuro' ? 'escuro' : 'claro';
       })();
     </script>
 
